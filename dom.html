@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<style>
+html{
+	font-family: Consolas;
+}
+li{
+	list-style-type: none;
+}
+</style>
+<script>
+
+</script>
+</head>
+
+<body>
+<details>
+	<summary>基础Node对象</summary>
+	<ul>
+		<li>
+			<details>
+				<summary>Node 对象</summary>
+				<ul>
+					<li>
+						<details>
+							<summary>ELEMENT_NODE<small>(1)</small></summary>
+							<ul>
+								<li><details>
+									<summary>自闭合 Element</summary>
+									<div>area, base, br, col, embed, hr, img, input, keygen, link, menuitem, meta, param, source, track, wbr</div>
+								</details></li>
+
+								<li><details>
+									<summary>inline Element</summary>
+									<div>a, abbr, acronym, b, br, code, em, font, i, img, ins, kbd, map, samp, small, span, strong, sub, sup</div>
+								</details></li>
+							</ul>
+						</details>
+					</li>
+					<li>
+						<details>
+							<summary>ATTRIBUTE_NODE<small>(2)</small></summary>
+							<div>
+								<textarea>
+									<div id="123" class="a b c" a="" b="" data-abc=""></div>
+								</textarea>
+							</div>
+						</details>
+					</li>
+					<li>
+						<details>
+							<summary>TEXT_NODE<small>(3)</small></summary>
+						</details>
+					</li>
+					<li>
+						<details>
+							<summary>COMMENT_NODE<small>(8)</small></summary>
+						</details>
+					</li>
+					<li>
+						<details>
+							<summary>DOCUMENT_NODE<small>(9)</small></summary>
+						</details>
+					</li>
+					<li>
+						<details>
+							<summary>DOCUMENT_TYPE_NODE<small>(10)</small></summary>
+						</details>
+					</li>
+					<li>
+						<details>
+							<summary>DOCUMENT_FRAGMENT_NODE<small>(11)</small></summary>
+						</details>
+					</li>
+					<noscript>(function(){
+						let types = Object.keys(Node.prototype).filter(key => key.indexOf('NODE') > -1)
+						console.log(types)
+						document.write(types.map(key => `<li>${key}<small>(${Node.prototype[key]})</small></li>`).join('\n'))
+					})()</noscript>
+				</ul>
+			</details>
+		</li>
+
+		<li>
+			<details>
+				<summary>DOM Event</summary>
+				<ol>
+					<li>
+						<details>
+							<summary>EventTarget</summary>
+							<ul>
+								<li>
+									addEventListener<br>
+									<code>
+										node.addEventLister('hello', function(){}, true)
+									</code>
+								</li>
+								<li>removeEventListener<br>
+									<code>node.removeEventListener('hello', function(){}, true)</code>
+								</li>
+								<li>dispatchEvent<br>
+									<code>
+										node.dispatchEvent()
+									</code>
+								</li>
+							</ul>
+						</details>
+					</li>
+
+					<li>
+						<details>
+							<summary>Event</summary>
+							<ul>
+								<li>
+									addEventListener<br>
+									<code>
+										node.addEventLister('hello', function(){}, true)
+									</code>
+								</li>
+								<li>removeEventListener<br>
+									<code>node.removeEventListener('hello', function(){}, true)</code>
+								</li>
+								<li>dispatchEvent<br>
+									<code>
+										node.dispatchEvent(new CustomEvent('my-event'))
+									</code>
+								</li>
+								<li>
+									<details>
+										<summary>Event</summary>
+										<ul>
+											<li>preventDefault</li>
+											<li>stopPropagation</li>
+										</ul>
+									</details>
+								</li>
+							</ul>
+						</details>
+					</li>
+
+				</ol>
+			</details>
+		</li>
+
+		<li>
+			<details>
+				<summary>DOM Event</summary>
+				<ol>
+					<li></li>
+				</ol>
+			</details>
+		</li>
+
+	</ul>
+</details>
+<script>
+(function(){
+	let eles = Array.prototype.slice.call(document.querySelectorAll('details'))
+	eles.forEach(details => details.open = true)
+	addEventListener('gogogo', function(e){
+		//console.log(e, e.type)
+	})
+	document.addEventListener('click', function(e){
+		console.log(e, 1)
+		e.stopImmediatePropagation()
+		//e.stopPropagation()
+		//e.preventDefault()
+	}, true)
+	document.addEventListener('click', function(e){
+		console.log(e, 1111)
+	}, true)
+	document.addEventListener('click', function(e){
+		console.log(e, 13)
+	}, true)
+	document.addEventListener('click', function(e){
+		console.log(e, 12)
+	}, true)
+
+	document.body.addEventListener('click', function(e){
+		console.log(e, 'body click')
+	}, true)
+
+	document.addEventListener('click', function(e){
+		console.log(e, 1)
+		e.stopImmediatePropagation()
+		//e.stopPropagation()
+		//e.preventDefault()
+	}, true)
+
+
+	window.addEventListener('click', function(e){
+		console.log(e, 4)
+	}, false)
+
+	document.addEventListener('click', function(e){
+		console.log(e, 2)
+	}, false)
+	window.addEventListener('click', function(e){
+		console.log(e, 3)
+	}, true)
+
+	eles[8].addEventListener('click', function(e){
+		console.log(e, "!!!!!!!", 5)
+	})
+
+	console.log(eles[8])
+	eles[8].dispatchEvent(new MouseEvent('click', {
+		bubbles: true,
+		view: window,
+		cancelable: true
+	}))
+	eles[8].dispatchEvent(new Event('gogogo', {
+		bubbles: true,
+		view: window,
+		cancelable: true
+	}))
+
+	//document.dispatchEvent(new MouseEvent('click'))
+})()
+</script>
+</body>
+</html>

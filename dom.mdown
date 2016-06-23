@@ -1,0 +1,9 @@
+# 了解DOM
+
+DOM的基本构成
+* Element
+* Attribute
+* Text
+* CDATA
+* ENTITY_REFEREBCE_NODE
+* 

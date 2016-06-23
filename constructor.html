@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<style>
+html{
+	font-family: Consolas;
+}
+li{
+	list-style-type: none;
+}
+</style>
+<script>
+
+</script>
+</head>
+
+<body>
+<ul></ul>
+<script>
+(function(){
+	let cons = Object.getOwnPropertyNames(window)
+		.filter(k => k[0] === k[0].toUpperCase())
+		.filter(k => typeof window[k] === 'function').sort()
+	console.log(cons.length)
+	let all = []
+	cons.forEach(key => {
+		let C = window[key]
+		while(typeof C === 'function' && C.name){
+			if(all.indexOf(C) === -1){
+				all.push(C)
+			}
+			C = C.__proto__
+		}
+	})
+	let allName = all.map(C => C.name)
+	console.log(allName.filter(key => cons.indexOf(key) === -1))
+	console.log(cons.filter(key => allName.indexOf(key) === -1))
+
+	function getExtends(B){
+		let exts = all.filter(C => C.__proto__ === B)
+		exts.forEach(C => all.splice(all.indexOf(C), 1))
+		return exts.map(constructor => {
+			return {
+				name: constructor.name,
+				constructor,
+				extends: getExtends(constructor)
+			}
+		})
+	}
+
+	let data = getExtends(Object.__proto__)
+
+	function renderConstructor(A, parent){
+		let content = parent.appendChild(document.createElement('li'))
+		content.innerHTML = `<details><summary>${A.name}</summary><ul></ul></details>`
+		A.extends.forEach(P => renderConstructor(P, content.childNodes[0].childNodes[1]))
+	}
+	let ul = document.querySelector('ul')
+	data.forEach(A => renderConstructor(A, ul))
+})()
+</script>
+</body>
+</html>
