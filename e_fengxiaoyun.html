@@ -1,24 +1,59 @@
-<html>  
-  <head>  
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">  
-    <title>Untitled Document</title>  
-    <script type="text/javascript">  
-      function show_element(e){  
-        if(!e){  
-          var e = window.event;  
-        }  
-        //获取事件点击元素  
-        var targ = e.target;  
-        //获取元素名称  
-        var tname = targ.tagName;  
-        alert(tname);  
-      }  
-    </script>  
-  </head>  
-  <body onmousedown="show_element(event)">  
-    <h1>this is a heading</h1>  
-    <p>这是段落</p>  
-    <p>这又是一个段落</p>  
-    <img src="1.jpg"/>  
-  </body>  
-</html> 
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<style>
+.aaa{
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #eee;
+	width: 100px;
+	height: 100px;
+	border: 1px solid #666;
+	word-break: break-all;
+	-webkit-user-select: none;
+}
+</style>
+</head>
+
+<body>
+<div id="pageWrapper"></div>
+<script>
+var w = document.getElementById('pageWrapper')
+w.innerHTML = [
+	'<div class="aaa" dnd="on">' + Math.random() +  '</div>',
+	'<div class="aaa" dnd="on">' + Math.random() +  '</div>',
+	'<div class="aaa" dnd="on">' + Math.random() +  '</div>',
+	'<div class="aaa" dnd="on">' + Math.random() +  '</div>',
+	'<div class="aaa" dnd="on">' + Math.random() +  '</div>'
+].join('\n')
+
+var mouseOffsetX= 0;
+var mouseOffsetY= 0;
+var isdrag = false;
+var curNode;
+document.addEventListener('mouseup', function(e){
+	isdrag = false;
+})
+document.addEventListener('mousedown', function(e){
+	isdrag = true;
+	curNode = e.target;
+    mouseOffsetX = e.pageX -parseInt(curNode.offsetLeft);
+    mouseOffsetY = e.pageY -parseInt(curNode.offsetTop);
+})
+document.addEventListener('mousemove', function(e){
+	if(isdrag){
+		var moveX =0;
+		var moveY =0;
+	    moveX = e.pageX - mouseOffsetX;
+	    moveY = e.pageY - mouseOffsetY;
+	    curNode.style.left =  moveX + "px";
+	    curNode.style.top =  moveY +"px";
+	}
+
+})
+</script>
+</body>
+</html>
