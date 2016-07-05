@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title></title>
+<style>
+.aaa{
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #eee;
+	width: 100px;
+	height: 100px;
+	border: 1px solid #666;
+	word-break: break-all;
+	-webkit-user-select: none;
+}
+</style>
+</head>
+
+<body>
+<div id="pageWrapper"></div>
+<script>
+var w = document.getElementById('pageWrapper')
+w.innerHTML = [
+	'<div class="aaa" dnd="on">' + Math.random() +  '</div>',
+	'<div class="aaa" dnd="on">' + Math.random() +  '</div>',
+	'<div class="aaa" dnd="on">' + Math.random() +  '</div>',
+	'<div class="aaa" dnd="on">' + Math.random() +  '</div>',
+	'<div class="aaa" dnd="on">' + Math.random() +  '</div>'
+].join('\n')
+
+var currentNode;
+var x , y;
+//鼠标的初始坐标
+var x0,y0;
+var moveable = false;
+
+//鼠标按键被松开
+document.addEventListener('mouseup', function(e){
+	moveable = false;
+})
+//鼠标按钮被按下
+document.addEventListener('mousedown', function(e){
+	positionBody(e);
+	x0=x;
+	y0=y;
+	currentNode=show_element(e);
+	x1 = currentNode.offsetLeft;
+	y1 = currentNode.offsetTop;
+	moveable = true;
+	
+})
+//鼠标被移动
+document.addEventListener('mousemove', function(e){
+	if(moveable){
+		currentNode.style.left = x1 + event.clientX - x0 + "px";
+		currentNode.style.top = y1 + event.clientY - y0 + "px";
+	}
+})
+
+
+//当需求为获得的坐标值相对于body时，用：
+function positionBody(event){
+	event = event||window.event;
+	//获得相对于body定位的横标值；
+	x=event.clientX
+	//获得相对于body定位的纵标值；
+	y=event.clientY
+}
+
+function show_element(e){  
+ 	var targ
+	if (!e) var e = window.event
+	if (e.target){
+		 targ = e.target;	
+	}else if (e.srcElement){
+		 targ = e.srcElement;	
+	}	
+	return targ;
+ }
+</script>
+</body>
+</html>
